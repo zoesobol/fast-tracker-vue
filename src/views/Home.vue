@@ -48,6 +48,9 @@ export default {
           `https://zoesobol.pythonanywhere.com/tasks/${id}`,
           {
             method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
         );
         res.status == 200
