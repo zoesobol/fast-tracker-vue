@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     async addTask(task) {
-      const res = await fetch("http://zoesobol.pythonanywhere.com/tasks/", {
+      const res = await fetch("https://zoesobol.pythonanywhere.com/tasks/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export default {
     async deleteTask(id) {
       if (confirm("Are you sure you want to delete this task?")) {
         const res = await fetch(
-          `http://zoesobol.pythonanywhere.com/tasks/${id}`,
+          `https://zoesobol.pythonanywhere.com/tasks/${id}`,
           {
             method: "DELETE",
           }
@@ -60,7 +60,7 @@ export default {
       const updatedTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
 
       const res = await fetch(
-        `http://zoesobol.pythonanywhere.com/tasks/${id}`,
+        `https://zoesobol.pythonanywhere.com/tasks/${id}`,
         {
           method: "PUT",
           headers: {
@@ -76,12 +76,14 @@ export default {
       });
     },
     async fetchTasks() {
-      const res = await fetch("http://zoesobol.pythonanywhere.com/tasks/");
+      const res = await fetch("https://zoesobol.pythonanywhere.com/tasks/");
       const data = await res.json();
       return data;
     },
     async fetchTask(id) {
-      const res = await fetch(`http://zoesobol.pythonanywhere.com/tasks/${id}`);
+      const res = await fetch(
+        `https://zoesobol.pythonanywhere.com/tasks/${id}`
+      );
       const data = await res.json();
       return data;
     },
