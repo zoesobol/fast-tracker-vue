@@ -35,6 +35,7 @@ export default {
       const res = await fetch("https://zoesobol.pythonanywhere.com/tasks/", {
         method: "POST",
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(task),
@@ -60,7 +61,19 @@ export default {
     },
     async toggleReminder(id) {
       const taskToToggle = await this.fetchTask(id);
-      const updatedTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
+      //const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
+
+      const updTask = {
+        text: taskToToggle.text,
+        day: taskToToggle.day,
+        reminder: !taskToToggle.reminder,
+      };
+
+      const data = await res.json();
+      this.tasks = this.tasks.map((task) => {
+        if (task.id === id) {
+          data[task] = updTask;
+      });
 
       const res = await fetch(
         `https://zoesobol.pythonanywhere.com/tasks/${id}`,
@@ -69,14 +82,12 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(updatedTask),
+          body: JSON.stringify(this.tasks),
         }
       );
 
-      const data = await res.json();
-      this.tasks = this.tasks.map((task) => {
-        task.id === id ? { ...task, reminder: data.reminder } : task;
-      });
+
+
     },
     async fetchTasks() {
       const res = await fetch("https://zoesobol.pythonanywhere.com/tasks/");
