@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     async addTask(task) {
-      const res = await fetch("http://localhost:5000/tasks/", {
+      const res = await fetch("http://zoesobol.pythonanywhere.com/tasks/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,9 +44,12 @@ export default {
     },
     async deleteTask(id) {
       if (confirm("Are you sure you want to delete this task?")) {
-        const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-          method: "DELETE",
-        });
+        const res = await fetch(
+          `http://zoesobol.pythonanywhere.com/tasks/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         res.status == 200
           ? (this.tasks = this.tasks.filter((task) => task.id !== id))
           : alert("Error deleting task");
@@ -56,13 +59,16 @@ export default {
       const taskToToggle = await this.fetchTask(id);
       const updatedTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
 
-      const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedTask),
-      });
+      const res = await fetch(
+        `http://zoesobol.pythonanywhere.com/tasks/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedTask),
+        }
+      );
 
       const data = await res.json();
       this.tasks = this.tasks.map((task) => {
@@ -70,12 +76,12 @@ export default {
       });
     },
     async fetchTasks() {
-      const res = await fetch("http://localhost:5000/tasks");
+      const res = await fetch("http://zoesobol.pythonanywhere.com/tasks/");
       const data = await res.json();
       return data;
     },
     async fetchTask(id) {
-      const res = await fetch(`http://localhost:5000/tasks/${id}`);
+      const res = await fetch(`http://zoesobol.pythonanywhere.com/tasks/${id}`);
       const data = await res.json();
       return data;
     },
