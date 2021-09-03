@@ -43,8 +43,8 @@ export default {
         },
         body: JSON.stringify(task),
       });
-      const newTask = await res.json();
-      this.tasks.push(newTask);
+      //const newTask = await res.json();
+      this.tasks.push(task);
     },
     async deleteTask(id) {
       if (confirm("Are you sure you want to delete this task?")) {
