@@ -3,7 +3,7 @@
     <div v-show="showAddTask">
       <AddTask @add-task="addTask" />
     </div>
-
+    <Spinner v-if="loading" />
     <Tasks
       @toggle-reminder="toggleReminder"
       @delete-task="deleteTask"
@@ -15,6 +15,7 @@
 <script>
 import Tasks from "../components/Tasks";
 import AddTask from "../components/AddTask";
+import Spinner from "../components/Spinner";
 
 export default {
   name: "Home",
@@ -24,10 +25,12 @@ export default {
   components: {
     Tasks,
     AddTask,
+    Spinner,
   },
   data() {
     return {
       tasks: [],
+      loading: false,
     };
   },
   methods: {
@@ -73,6 +76,7 @@ export default {
       this.tasks = this.tasks.map((task) => {
         if (task.id === id) {
           data[task] = updTask;
+        }
       });
 
       const res = await fetch(
@@ -85,9 +89,6 @@ export default {
           body: JSON.stringify(this.tasks),
         }
       );
-
-
-
     },
     async fetchTasks() {
       const res = await fetch("https://zoesobol.pythonanywhere.com/tasks/");
@@ -109,7 +110,9 @@ export default {
     },
   },
   async created() {
+    this.loading = true;
     this.tasks = await this.fetchTasks();
+    this.loading = false;
   },
 };
 </script>
